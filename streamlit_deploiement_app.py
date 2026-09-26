@@ -415,7 +415,7 @@ components.html(
 
     </div>
     """,
-    height=180,
+    height=420,
     scrolling=False
 )
 
