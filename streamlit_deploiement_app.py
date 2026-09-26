@@ -426,9 +426,16 @@ components.html(
 
 liste_communes = liste_communes_disponibles()
 
-col_a, col_b = st.columns(2)
+mois_noms = [
+    "Janvier", "Février", "Mars", "Avril",
+    "Mai", "Juin", "Juillet", "Août",
+    "Septembre", "Octobre", "Novembre", "Décembre"
+]
 
-with col_a:
+# Ordre logique : Commune → Année → Mois → Températures →
+# Précipitations → Moustiquaires → Assainissement
+ligne1_a, ligne1_b = st.columns(2)
+with ligne1_a:
     if liste_communes:
         commune = st.selectbox("Commune", liste_communes)
     else:
@@ -436,33 +443,39 @@ with col_a:
             "Commune",
             placeholder="Liste des communes indisponible — saisissez manuellement"
         )
+with ligne1_b:
+    annee = st.number_input(
+        "Année", min_value=2002, max_value=2100, value=2026, step=1
+    )
+
+ligne2_a, ligne2_b = st.columns(2)
+with ligne2_a:
+    mois_nom = st.selectbox("Mois", mois_noms)
+    mois = mois_noms.index(mois_nom) + 1
+with ligne2_b:
     temperature_moy = st.number_input(
         "Température moyenne (°C)",
         min_value=15.0, max_value=45.0, value=28.0, step=0.1
     )
-    precipitation = st.number_input(
-        "Précipitations (mm)", min_value=0.0, value=100.0, step=1.0
-    )
-    moustiquaires = st.number_input(
-        "Couverture en moustiquaires (%)",
-        min_value=0.0, max_value=100.0, value=50.0, step=0.1
-    )
 
-with col_b:
-    mois_noms = [
-        "Janvier", "Février", "Mars", "Avril",
-        "Mai", "Juin", "Juillet", "Août",
-        "Septembre", "Octobre", "Novembre", "Décembre"
-    ]
-    mois_nom = st.selectbox("Mois", mois_noms)
-    mois = mois_noms.index(mois_nom) + 1
-    annee = st.number_input(
-        "Année", min_value=2002, max_value=2100, value=2026, step=1
-    )
+ligne3_a, ligne3_b = st.columns(2)
+with ligne3_a:
     temperature_max = st.number_input(
         "Température maximale (°C)",
         min_value=15.0, max_value=55.0, value=32.0, step=0.1
     )
+with ligne3_b:
+    precipitation = st.number_input(
+        "Précipitations (mm)", min_value=0.0, value=100.0, step=1.0
+    )
+
+ligne4_a, ligne4_b = st.columns(2)
+with ligne4_a:
+    moustiquaires = st.number_input(
+        "Couverture en moustiquaires (%)",
+        min_value=0.0, max_value=100.0, value=50.0, step=0.1
+    )
+with ligne4_b:
     assainissement = st.number_input(
         "Accès à l'assainissement (%)",
         min_value=0.0, max_value=100.0, value=70.0, step=0.1
